@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_print_template_tree" model="ir.ui.view">
+            <field name="name">print.template.tree</field>
+            <field name="model">print.template</field>
+            <field name="arch" type="xml">
+                <tree string="Албан бланкын загварын жагсаалт" default_order="sequence asc">
+
+                    <field name="sequence" string="Дд" width="40"/>
+
+                    <field name="state"
+                           string="Төлөв"
+                           widget="badge"
+                           decoration-info="state == 'new'"
+                           decoration-success="state == 'active'"
+                           width="90"/>
+
+
+                    <field name="doc_type"
+                           string="Баримт бичгийн нэр"
+                           class="text-wrap"
+                           width="200"/>
+
+                    <field name="paper_size" string="Цаасны хэмжээ" width="100"/>
+
+                    <field name="name" string="Загварын нэр" width="220"/>
+
+                    <field name="start_date" string="Ашиглаж эхэлсэн огноо" width="120"/>
+
+                    <!-- WRAP -->
+                    <field name="note"
+                           string="Тэмдэглэл"
+                           widget="text"
+                           class="text-wrap"
+                           width="260"/>
+
+                    <field name="approved_file"
+                           string="Файл"
+                           widget="binary"
+                           filename="name"
+                           width="80"/>
+
+                    <field name="employee_id" string="Бүртгэсэн ажилтан" width="160"/>
+                    <field name="create_date" string="Бүртгэсэн огноо" width="150"/>
+
+                </tree>
+
+            </field>
+        </record>
+
+        <record id="view_print_template_form" model="ir.ui.view">
+            <field name="name">print.template.form</field>
+            <field name="model">print.template</field>
+            <field name="arch" type="xml">
+                <form string="Албан бланкны загвар">
+                    <header>
+                        <button name="action_confirm" string="Ашиглах" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'new')]}"/>
+                        <button name="action_cancel" string="Цуцлах" type="object" attrs="{'invisible': [('state', '=', 'cancelled')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="new,active,cancelled"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="doc_type"/>
+                                <field name="paper_size"/>
+                                <field name="name"/>
+                                <field name="approved_file" filename="name"/>
+                                <field name="start_date"/>
+                            </group>
+                            <group>
+                                <field name="note" placeholder="Гараас оруулна..."/>
+                                <field name="employee_id" options="{'no_open': True, 'no_create': True}" force_save="1"/>
+                                <field name="create_date" readonly="1" force_save="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_print_template" model="ir.actions.act_window">
+            <field name="name">Загвар бүртгэх</field>
+            <field name="res_model">print.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+        </record>
+    </data>
+</odoo>

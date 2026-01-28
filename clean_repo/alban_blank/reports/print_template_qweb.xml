@@ -1,0 +1,16 @@
+<odoo>
+    <template id="print_template_report">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <h2 t-esc="doc.organization"/>
+                <p>
+                    <span t-esc="doc.address"/> |
+                    <span t-esc="doc.phone"/> |
+                    <span t-esc="doc.email"/>
+                </p>
+                <hr/>
+                <div t-raw="doc.body"/>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_print_template,print.template,model_print_template,,1,1,1,1
+access_blank_usage,blank.usage,model_blank_usage,base.group_user,1,1,1,1
+access_archive_request_user,archive.request.user,model_archive_request,base.group_user,1,1,1,1

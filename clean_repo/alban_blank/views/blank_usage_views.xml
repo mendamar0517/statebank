@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_blank_usage_tree" model="ir.ui.view">
+        <field name="name">blank.usage.tree</field>
+        <field name="model">blank.usage</field>
+        <field name="arch" type="xml">
+            <tree string="Албан бланк ашиглалтын жагсаалт" default_order="sequence asc">
+    <field name="sequence" string="Дд" width="40"/>
+    <field name="blank_id" string="Баримт бичгийн нэр" width="200"/>
+    <field name="received_date" width="120"/>
+    <field name="received_number" string="Хүлээж авсан тоо" width="130"/>
+    <field name="start_number" string="Эхлэх дугаар" width="120"/>
+    <field name="finish_number" string="Дуусах дугаар" width="120"/>
+    <field name="user_dep_id" string="Ашиглаж буй нэгж" width="160"/>
+    <field name="user_emp_id" string="Ашиглаж буй ажилтан" width="170"/>
+    <field name="created_emp" string="Бүртгэсэн ажилтан" width="160"/>
+    <field name="created_date" string="Бүртгэсэн огноо" width="150"/>
+</tree>
+
+        </field>
+    </record>
+
+    <record id="view_blank_usage_form" model="ir.ui.view">
+        <field name="name">blank.usage.form</field>
+        <field name="model">blank.usage</field>
+        <field name="arch" type="xml">
+            <form string="Албан бланкын ашиглалт">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="blank_id"/>
+                            <field name="received_date"/>
+                            <field name="received_number"/>
+                            <field name="start_number"/>
+                            <field name="finish_number"/>
+                        </group>
+                        <group>
+                            <field name="user_dep_id"/>
+                            <field name="user_emp_id"/>
+                            <field name="created_emp"/>
+                            <field name="created_date"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_blank_usage" model="ir.actions.act_window">
+        <field name="name">Ашиглалтын бүртгэл</field>
+        <field name="res_model">blank.usage</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

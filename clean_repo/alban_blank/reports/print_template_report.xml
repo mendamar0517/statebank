@@ -1,0 +1,10 @@
+<odoo>
+    <report
+        id="report_print_template"
+        model="print.template"
+        string="Албан бланк хэвлэх"
+        report_type="qweb-pdf"
+        name="alban_blank.print_template_report"
+        file="alban_blank.print_template_report"
+    />
+</odoo>

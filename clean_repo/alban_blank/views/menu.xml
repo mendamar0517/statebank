@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_archive_root" name="Архив" sequence="10"/>
+
+    <menuitem id="menu_archive_request_sub" name="Хүсэлт" parent="menu_archive_root" sequence="1"/>
+    <menuitem id="menu_archive_request_action" name="Тодорхойлолт бичүүлэх"
+              parent="menu_archive_request_sub" action="action_archive_request"/>
+
+    <menuitem id="menu_alban_blank_sub" name="Албан бланк" parent="menu_archive_root" sequence="2"/>
+    <menuitem id="menu_print_template" name="Загвар бүртгэх"
+              parent="menu_alban_blank_sub" action="action_print_template"/>
+    <menuitem id="menu_blank_usage" name="Ашиглалтын бүртгэл"
+              parent="menu_alban_blank_sub" action="action_blank_usage"/>
+</odoo>

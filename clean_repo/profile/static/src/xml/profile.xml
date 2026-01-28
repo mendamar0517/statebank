@@ -1,0 +1,117 @@
+<templates>
+    <t t-name="profile.ProfileDashboardMain" owl="1">
+        <div class="o_dashboard_profile p-4 bg-light" style="height: 100vh; overflow-y: auto;">
+            <div class="row" t-if="state.info and state.info.user_info">
+
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold mb-0 text-uppercase text-secondary">Миний Ажлууд</h6>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm" data-bs-toggle="dropdown">+ Цэс нэмэх</button>
+                            <ul class="dropdown-menu shadow border-0 overflow-auto" style="max-height: 350px;">
+                                <t t-if="state.info.available_modules">
+                                    <li t-foreach="state.info.available_modules" t-as="m" t-key="m">
+                                        <a class="dropdown-item pointer" t-on-click="() => this.toggleModule(m)">
+                                            <i t-attf-class="fa {{ state.displayedCards.includes(m) ? 'fa-check-square text-primary' : 'fa-square-o' }} me-2"/> <t t-esc="m"/>
+                                        </a>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <t t-foreach="state.displayedCards" t-as="mName" t-key="mName">
+                        <div t-if="state.info.menu_hierarchy[mName]" class="card mb-2 shadow-sm border-0" style="border-radius: 12px; overflow: hidden;">
+                            <div class="d-flex pointer" style="height: 65px;" t-on-click="() => this.state.expandedMenu = (this.state.expandedMenu === mName ? null : mName)">
+                                <div t-attf-style="width: 8px; background: {{ state.palette[state.displayedCards.indexOf(mName) % 7] }}"/>
+                                <div class="p-3 bg-white flex-grow-1 d-flex align-items-center justify-content-between">
+                                    <span class="fw-bold text-dark"><i t-attf-class="fa {{ state.expandedMenu === mName ? 'fa-folder-open text-warning' : 'fa-folder text-warning' }} me-2"/> <t t-esc="mName"/></span>
+                                    <h4 class="mb-0 fw-bold text-primary" t-esc="state.info.menu_hierarchy[mName].total"/>
+                                </div>
+                            </div>
+
+                            <div t-if="state.expandedMenu === mName" class="p-2 bg-white border-top">
+                                <t t-foreach="state.info.menu_hierarchy[mName].subs" t-as="sub" t-key="sub.id">
+                                    <div class="mb-1">
+                                        <div t-on-click="() => this.toggleSub(sub)"
+                                             t-attf-class="p-2 rounded pointer d-flex justify-content-between align-items-center {{ state.expandedSub === sub.id ? 'bg-primary text-white shadow' : 'bg-light text-dark border' }}"
+                                             style="margin-left: 10px; font-size: 0.85rem;">
+                                            <span><i class="fa fa-caret-right me-2"/> <t t-esc="sub.name"/></span>
+                                            <span t-attf-class="badge {{ state.expandedSub === sub.id ? 'bg-white text-primary' : 'bg-secondary text-white' }}"><t t-esc="sub.count"/></span>
+                                        </div>
+                                        <div t-if="state.expandedSub === sub.id" class="ps-4 py-1 mt-1 bg-white border-start ms-4">
+                                            <t t-foreach="sub.records" t-as="rec" t-key="rec.id">
+                                                <div class="small py-1 text-muted border-bottom-light" style="font-size: 11px;"><i class="fa fa-file-text-o me-2 opacity-50"/> <t t-esc="rec.display_name"/></div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="bg-white p-4 rounded shadow-sm border-0 position-relative" style="height: 520px; border-radius: 20px;">
+                        <div t-if="state.activeSub">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h6 class="fw-bold text-secondary mb-0 text-uppercase">Анализ: <t t-esc="state.activeSub.name"/></h6>
+                                <div class="btn-group btn-group-sm rounded-pill border overflow-hidden shadow-sm">
+                                    <button t-if="state.activeSub.has_status" t-attf-class="btn {{ state.graphType == 'status' ? 'btn-primary' : 'btn-light' }}" t-on-click="() => { this.state.graphType = 'status'; this.updateChart(); }">Төлөв</button>
+                                    <button t-attf-class="btn {{ state.graphType == 'participation' ? 'btn-primary' : 'btn-light' }}" t-on-click="() => { this.state.graphType = 'participation'; this.updateChart(); }">Оролцоо</button>
+                                </div>
+                            </div>
+                            <div style="height: 380px;"><canvas t-ref="chart"></canvas></div>
+                        </div>
+                        <div t-else="" class="h-100 d-flex flex-column align-items-center justify-content-center text-muted">
+                            <i class="fa fa-pie-chart fa-4x mb-3 opacity-25"/>
+                            <p>Дэд цэс сонгож графикаа харна уу</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm text-center p-4 mb-4" style="border-radius: 20px;">
+                        <div class="mx-auto mb-3 position-relative d-inline-block">
+                            <t t-if="state.info.user_info.image">
+                                <img t-attf-src="data:image/png;base64,{{state.info.user_info.image}}"
+                                     class="rounded-circle shadow-sm"
+                                     style="width: 100px; height: 100px; object-fit: cover; border: 4px solid white;"/>
+                            </t>
+                            <t t-else="">
+                                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto shadow-sm"
+                                     style="width: 100px; height: 100px;">
+                                    <i class="fa fa-user fa-3x text-muted"/>
+                                </div>
+                            </t>
+                            <div class="position-absolute bottom-0 end-0 bg-success rounded-circle border border-2 border-white" style="width: 18px; height: 18px;"/>
+                        </div>
+                                                <h6 class="fw-bold mb-1" t-esc="state.info.user_info.name"/>
+                        <p class="text-primary small fw-bold mb-3" t-esc="state.info.user_info.job"/>
+
+                        <div class="text-start border-top pt-3 small text-muted">
+                            <div class="mb-2"><i class="fa fa-envelope-o me-2 text-primary"/> <t t-esc="state.info.user_info.email"/></div>
+                            <div class="mb-2"><i class="fa fa-building-o me-2 text-primary"/> <t t-esc="state.info.user_info.dept"/></div>
+                            <div t-if="state.info.user_info.phone"><i class="fa fa-phone me-2 text-primary"/> <t t-esc="state.info.user_info.phone"/></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded shadow-sm border-0" style="border-radius: 20px; border-left: 5px solid #ffc107;">
+                        <h6 class="fw-bold text-dark mb-3 small text-uppercase">
+                            <i class="fa fa-lock me-2 text-warning"/>ERP ЭРХҮҮД
+                        </h6>
+                        <div style="max-height: 250px; overflow-y: auto;" class="custom-scrollbar">
+                            <t t-foreach="state.info.erp_rights || []" t-as="right" t-key="right">
+                                <div class="mb-1 p-2 bg-light rounded d-flex align-items-center" style="font-size: 10px;">
+                                    <i class="fa fa-check-circle text-success me-2"/>
+                                    <t t-esc="right"/>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </t>
+</templates>

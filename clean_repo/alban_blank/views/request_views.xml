@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Tree View -->
+        <record id="view_archive_request_tree" model="ir.ui.view">
+            <field name="name">archive.request.tree</field>
+            <field name="model">archive.request</field>
+            <field name="arch" type="xml">
+                <tree string="Хүсэлтийн жагсаалт" default_order="sequence asc">
+                    <field name="sequence" string="Дд" width="40"/>
+                    <field name="state" widget="badge"
+                           decoration-info="state == 'new'"
+                           decoration-warning="state == 'sent'"
+                           decoration-success="state == 'done'"/>
+                    <field name="request_type"/>
+                    <field name="request_employee_id" class="text-wrap-custom"/>
+                    <field name="z_code" class="text-wrap-custom"/>
+                    <field name="request_date" class="text-wrap-custom"/>
+                    <field name="organization" string="Хүлээн авах байгууллага" class="text-wrap-custom"/>
+                    <field name="about" string="Зориулалт" class="text-wrap-custom"/>
+                    <field name="email_to" class="text-wrap-custom"/>
+                    <field name="approved_file" string="Файл" widget="binary" class="text-wrap-custom"/>
+                    <field name="sender_employee_id" class="text-wrap-custom"/>
+                    <field name="send_date" class="text-wrap-custom"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_archive_request_form" model="ir.ui.view">
+            <field name="name">archive.request.form</field>
+            <field name="model">archive.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_send_to_hr" string="ХН-д илгээх" type="object"
+                                attrs="{'invisible': [('state', '!=', 'new')]}" class="oe_highlight"/>
+                        <button name="action_approve" string="Олгосон" type="object"
+                                attrs="{'invisible': [('state', '!=', 'sent')]}"
+                                groups="hr.group_hr_user" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="new,sent,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>Тодорхойлолт бичүүлэх хүсэлт</h1>
+                        </div>
+                        <group string="Тодорхойлолтод бичигдэх мэдээлэл">
+                            <group>
+                                <field name="z_code" attrs="{'readonly': [('state', '!=', 'new')]}"/>
+                                <field name="organization" attrs="{'readonly': [('state', '!=', 'new')]}"/>
+                                <field name="request_employee_id" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                                <field name="request_date" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="about" attrs="{'readonly': [('state', '!=', 'new')]}"/>
+                            </group>
+                        </group>
+
+                        <group string="Тодорхойлолт бэлдэж илгээсэн мэдээлэл" groups="hr.group_hr_user">
+                            <group>
+                                <field name="email_to" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                                <field name="sender_employee_id" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                                <field name="send_date" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="approved_file" widget="binary" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_archive_request" model="ir.actions.act_window">
+            <field name="name">Тодорхойлолт бичүүлэх</field>
+            <field name="res_model">archive.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+        </record>
+
+    </data>
+</odoo>

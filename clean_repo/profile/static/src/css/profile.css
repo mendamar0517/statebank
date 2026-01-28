@@ -1,0 +1,36 @@
+.o_dashboard_profile {
+    background-color: #f0f2f5;
+    min-height: 100vh;
+}
+.dashboard-card {
+    display: flex;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.card-title-box {
+    background: #ffffff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+.card-content-box {
+    padding: 20px;
+    flex-grow: 1;
+}
+.profile-card-right {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+.profile-main-img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border: 5px solid #f8f9fa;
+}
