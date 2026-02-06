@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <!-- Action: Partners list -->
+  <record id="action_address_parser_partners" model="ir.actions.act_window">
+    <field name="name">Partners (Address Parser)</field>
+    <field name="res_model">res.partner</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[]</field>
+  </record>
+
+  <!-- Root app menu -->
+  <menuitem id="menu_address_parser_root" name="Address Parser" sequence="10"/>
+
+  <!-- Child menu -->
+  <menuitem
+    id="menu_address_parser_partners"
+    name="Partners"
+    parent="menu_address_parser_root"
+    action="action_address_parser_partners"
+    sequence="10"
+  />
+
+</odoo>

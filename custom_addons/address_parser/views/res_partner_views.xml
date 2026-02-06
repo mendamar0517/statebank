@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <record id="view_partner_form_address_parser" model="ir.ui.view">
+    <field name="name">res.partner.form.address.parser</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/notebook" position="inside">
+        <page string="Address Parser">
+          <group>
+            <field name="address_raw" placeholder="Жишээ: УЛААНБААТАР, ХУД, 2-Р ХОРОО, 12.5 45 ТООТ"/>
+          </group>
+
+          <group string="Parsed Result" col="4">
+            <field name="sumname"/>
+            <field name="horooid"/>
+            <field name="bair"/>
+            <field name="korpus"/>
+            <field name="xaalga"/>
+            <field name="address_confidence"/>
+            <field name="address_pattern"/>
+            <field name="address_is_trusted"/>
+          </group>
+        </page>
+      </xpath>
+    </field>
+  </record>
+</odoo>
